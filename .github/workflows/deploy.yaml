@@ -1,0 +1,33 @@
+name: Deploy barista Cafe
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # If there are dependencies to install, uncomment the following step
+     - name: Set up Node.js
+       uses: actions/setup-node@v3
+       with:
+         node-version: '14'
+
+     - name: Install dependencies
+       run: npm install
+
+    # If there's a build step, uncomment the following step
+     - name: Build the project
+       run: npm run build
+
+    - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: gh-pages
+          folder: build
